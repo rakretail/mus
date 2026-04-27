@@ -1,6 +1,6 @@
 {
-  "name": "Fujairah Showroom Tracker",
-  "short_name": "FujTracker",
+  "name": "Musaffah Showroom Tracker",
+  "short_name": "musTracker",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f2f7f7",
