@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,8 +38,8 @@
         // ============================================================
         //  NEW: STORE_ID constant — fixed per showroom installation
         // ============================================================
-        window.STORE_ID = "mus";
-        // This ensures data stays under stores/mus/
+        window.STORE_ID = "ajm";
+        // This ensures data stays under stores/ajm/
         window.basePath = "stores/" + window.STORE_ID + "/";
 
         // Boot the auth/PIN layer first; it will call initAppLogic() after login
@@ -59,17 +57,17 @@
             --bg: #f2f7f7;
             --card-bg: #ffffff;
             --text-main: #1a2a2a;
-            --mus-text: #1a2a2a;
-            --mus-color: #1a2a2a; 
+            --ajm-text: #1a2a2a;
+            --ajm-color: #1a2a2a; 
             --shadow-soft: 0 10px 30px rgba(0, 102, 102, 0.08);
         }
         body.dark {
             --bg: #050a0a;
             --card-bg: #0f1a1a;
             --text-main: #e0f2f2;
-            --mus-text: #ffffff;
+            --ajm-text: #ffffff;
             --primary: #00a8a8;
-            --mus-color: #ffffff; 
+            --ajm-color: #ffffff; 
         }
         body { 
             font-family: 'Poppins', sans-serif;
@@ -89,12 +87,12 @@
             flex-direction: column;
             align-items: center;
         }
-        .mus-left {
+        .ajm-left {
             position: absolute;
             left: 0; top: 10px;
             font-size: 2.4rem;
             font-weight: 800;
-            color: var(--mus-text);
+            color: var(--ajm-text);
             letter-spacing: -1.5px;
         }
         .top-controls { position: absolute; right: 0; top: 10px; display: flex; gap: 8px; }
@@ -102,7 +100,7 @@
             font-size: 2.4rem; 
             font-weight: 800;
             margin: 10px 0;
-            color: var(--mus-color); 
+            color: var(--ajm-color); 
             letter-spacing: -1.5px;
         }
         .bulletin-board {
@@ -1081,7 +1079,7 @@
             transition: transform 0.12s ease, box-shadow 0.12s ease;
             cursor: default;
         }
-        body.dark .heatmap-grid .hm-cell { background: rgba(255,255,255,0.04); }
+        body.dark .heatmap-grid .hm-cell[data-i="0"] { background: rgba(255,255,255,0.04); }
         .heatmap-grid .hm-cell[data-i="1"] { background: rgba(0,168,168,0.18); }
         .heatmap-grid .hm-cell[data-i="2"] { background: rgba(0,168,168,0.32); }
         .heatmap-grid .hm-cell[data-i="3"] { background: rgba(0,150,150,0.50); }
@@ -1089,6 +1087,14 @@
         .heatmap-grid .hm-cell[data-i="5"] {
             background: linear-gradient(135deg, #006666, #f7971e);
             box-shadow: 0 2px 8px rgba(247,151,30,0.35);
+        }
+        body.dark .heatmap-grid .hm-cell[data-i="1"] { background: rgba(0,210,210,0.22); }
+        body.dark .heatmap-grid .hm-cell[data-i="2"] { background: rgba(0,210,210,0.40); }
+        body.dark .heatmap-grid .hm-cell[data-i="3"] { background: rgba(0,190,190,0.60); }
+        body.dark .heatmap-grid .hm-cell[data-i="4"] { background: rgba(0,168,168,0.82); }
+        body.dark .heatmap-grid .hm-cell[data-i="5"] {
+            background: linear-gradient(135deg, #00a8a8, #f7971e);
+            box-shadow: 0 2px 10px rgba(247,151,30,0.45);
         }
         .heatmap-grid .hm-cell:hover {
             transform: scale(1.18);
@@ -1293,7 +1299,7 @@
         @media (max-width: 768px) {
             body { padding: 12px; }
             header { display: flex; flex-direction: column; align-items: center; padding-top: 0; }
-            .mus-left { position: static; font-size: 1.8rem; margin: 0 0 4px; align-self: flex-start; }
+            .ajm-left { position: static; font-size: 1.8rem; margin: 0 0 4px; align-self: flex-start; }
             .top-controls { position: static; margin: 0 0 12px; align-self: flex-end; }
             .showroom-title { font-size: 1.6rem; margin: 4px 0 8px; }
             .bulletin-board { padding: 10px 12px; border-radius: 14px; }
@@ -1551,7 +1557,7 @@
 
 <div class="container">
     <header>
-        <div class="mus-left">RAK</div>
+        <div class="ajm-left">RAK</div>
         <div class="top-controls">
             <button class="btn-tool" onclick="toggleFullScreen()">⛶</button>
             <button class="btn-tool" onclick="toggleDark()">🌓</button>
@@ -1786,8 +1792,8 @@ const showroomLat = 24.3574864, showroomLon = 54.4862254, allowedRadiusKM = 1.0;
 //    stores/{storeId}/executives/{execName}/pin
 //    stores/{storeId}/validPins/{pin} : true
 //  localStorage keys (scoped by storeId):
-//    mus_auth_pin
-//    mus_auth_exec
+//    ajm_auth_pin
+//    ajm_auth_exec
 // ================================================================
 
 const LS_PIN_KEY = () => `${window.STORE_ID}_auth_pin`;
@@ -2106,7 +2112,7 @@ async function submitChangePin() {
 // ================================================================
 
 function initAppLogic() {
-    // SYNC: Point to stores/mus/executiveList
+    // SYNC: Point to stores/ajm/executiveList
     window.dbOnValue(window.dbRef(window.db, window.basePath + "executiveList"), snap => {
         const val = snap.val() || {};
         executives = Object.values(val).sort();
@@ -2114,7 +2120,7 @@ function initAppLogic() {
         syncWalkins();
     });
 
-    // SYNC: Point to stores/mus/locks
+    // SYNC: Point to stores/ajm/locks
     window.dbOnValue(window.dbRef(window.db, window.basePath + "locks"), snap => {
         lockedUsers = snap.val() || {};
         // Re-render so the manager Active/Off-Duty toggles & lock styles refresh
@@ -2193,7 +2199,7 @@ function renderGrid() {
 }
 
 function syncWalkins() {
-    // SYNC: Point to stores/mus/walkins
+    // SYNC: Point to stores/ajm/walkins
     window.dbOnValue(window.dbRef(window.db, window.basePath + "walkins"), snap => {
         historyData = [];
         let d=0, w=0, m=0;
@@ -2368,7 +2374,7 @@ function update(name, val) {
         (pos) => {
             const dist = calculateDistance(pos.coords.latitude, pos.coords.longitude, showroomLat, showroomLon);
             if (dist <= allowedRadiusKM) {
-                // UPDATE: Pushing to stores/mus/walkins
+                // UPDATE: Pushing to stores/ajm/walkins
                 // The card the user pressed is `name` (the executive whose count
                 // changes). We also record `submittedBy` and `pin` so server-side
                 // rules can validate against /validPins/{pin}.
@@ -3026,7 +3032,7 @@ function renderChartKpis(data, type) {
 function updateDateTime(){
     const now = new Date();
     document.getElementById('day').innerText = now.toLocaleDateString('en-US', { weekday: 'long' });
-    document.getElementById('date').innerText = now.toLocaleDateString('en-GB');
+    document.getElementById('date').innerText = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     // Split-digit clock: HH : MM with seconds shown as a small accent chip.
     // Falls back gracefully if the new split spans don't exist (older markup).
@@ -3156,7 +3162,7 @@ async function addExecutive() {
     const input = document.getElementById("newExecName"); 
     const name = input.value.trim(); 
     if(name && !executives.includes(name)) {
-        // UPDATE: Pointing to stores/mus/executiveList
+        // UPDATE: Pointing to stores/ajm/executiveList
         await window.dbPush(window.dbRef(window.db, window.basePath + "executiveList"), name);
 
         // ============================================================
@@ -3173,12 +3179,12 @@ async function addExecutive() {
 
 async function deleteExecutive(name) { 
     if(confirm(`Delete ${name}?`)) { 
-        // UPDATE: Looking within stores/mus/executiveList
+        // UPDATE: Looking within stores/ajm/executiveList
         const snapshot = await window.dbGet(window.dbRef(window.db, window.basePath + "executiveList"));
         snapshot.forEach(c => { 
             if(c.val() === name) window.dbRemove(c.ref); 
         }); 
-        // UPDATE: Removing from stores/mus/locks
+        // UPDATE: Removing from stores/ajm/locks
         window.dbRemove(window.dbRef(window.db, window.basePath + "locks/" + name));
 
         // ============================================================
@@ -3204,7 +3210,7 @@ async function deleteExecutive(name) {
 }
 
 function toggleLock(name) { 
-    // UPDATE: Setting within stores/mus/locks
+    // UPDATE: Setting within stores/ajm/locks
     window.dbSet(window.dbRef(window.db, window.basePath + "locks/" + name), !lockedUsers[name]); 
     renderAdmin(); 
 }
